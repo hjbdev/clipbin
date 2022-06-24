@@ -1,4 +1,5 @@
 import './bootstrap';
+import 'plyr/dist/plyr.css';
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';

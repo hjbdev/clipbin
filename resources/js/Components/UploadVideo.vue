@@ -12,6 +12,7 @@
 <script setup>
 import { PrimaryButton } from "hjb-ui";
 import { onMounted, ref } from "vue";
+import { Inertia } from '@inertiajs/inertia';
 import Resumable from "resumablejs";
 
 const fileInput = ref(null);
@@ -53,20 +54,20 @@ onMounted(() => {
     // Handle file add event
     resumable.on("fileAdded", function (file) {
         uploading.value = true;
-        progress.value = file.progress();
+        progress.value = file.progress() * 100;
         // Show progress pabr
         resumable.upload();
     });
     resumable.on("fileSuccess", function (file, message) {
         uploading.value = false;
-        alert('File Uploaded');
+        Inertia.reload({ only: ['videos'] })
     });
     resumable.on("fileError", function (file, message) {
         uploading.value = false;
         alert('error while uploading file');
     });
     resumable.on("fileProgress", function (file) {
-        progress.value = file.progress();
+        progress.value = file.progress() * 100;
     });
 });
 </script>

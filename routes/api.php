@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\VideoController;
+use App\Models\Conversion;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/videos/{video}/conversions/{conversion}', function (Video $video, Conversion $conversion) {
+    return response()->download(storage_path('app/' . $conversion->path));
+});
+
+Route::get('/videos/{video}/thumbnail', [VideoController::class, 'thumbnail']);

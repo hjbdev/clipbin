@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "hjb-ui": "https://github.com/hjbdev/ui",
+        "plyr": "^3.7.2",
         "resumablejs": "^1.1.0"
     }
 }

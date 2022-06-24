@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\BeginProcessingVideo;
 use App\Models\Video;
+use FFMpeg\Coordinate\Dimension;
+use FFMpeg\Coordinate\TimeCode;
+use FFMpeg\FFMpeg;
+use FFMpeg\Filters\Frame\CustomFrameFilter;
+use FFMpeg\Filters\Frame\FrameFilters;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Inertia\Inertia;
@@ -19,17 +25,8 @@ class VideoController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Dashboard');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $videos = Video::whereCreatedBy(auth()->id())->orderByDesc('id')->get();
+        return Inertia::render('Dashboard', compact('videos'));
     }
 
     /**
@@ -40,6 +37,10 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'resumableType' => 'required|in:video/mp4',
+        ]);
+
         // create the file receiver
         $receiver = new FileReceiver("file", $request, HandlerFactory::classFromRequest($request));
 
@@ -50,6 +51,8 @@ class VideoController extends Controller
 
         // receive the file
         $save = $receiver->receive();
+
+
 
         // check if the upload has finished (in chunk mode it will send smaller files)
         if ($save->isFinished()) {
@@ -77,25 +80,39 @@ class VideoController extends Controller
     protected function saveFileAndCreateVideo(UploadedFile $file)
     {
         $fileName = $file->getClientOriginalName();
-        // Group files by the date (week
-        $dateFolder = date("Y-m-W");
 
         $video = new Video();
         $video->title = $fileName;
         $video->creator()->associate(auth()->id());
         $video->save();
 
+        $fileName = 'original.' . $file->getClientOriginalExtension();
+
         // Build the file path
-        $filePath = "uploads/{$dateFolder}/{$video->id}/";
+        $filePath = "videos/{$video->id}/";
         $finalPath = storage_path("app/" . $filePath);
 
         // move the file name
         $file->move($finalPath, $fileName);
 
-        // create the video
+        $ffmpeg = FFMpeg::create([
+            'temporary_directory' => storage_path('app/temp'),
+            'ffmpeg.binaries'  => env('FFMPEG_BINARY'),
+            'ffprobe.binaries' => env('FFPROBE_BINARY'),
+            'timeout'          => 3600 // The timeout for the underlying process
+        ]);
 
+        $ffmpeg->open($finalPath . $fileName)
+            ->frame(TimeCode::fromSeconds(0))
+            ->addFilter(new CustomFrameFilter('scale=320:-1'))
+            ->save($finalPath . 'thumbnail.jpg');
+
+        // create the video
         $video->path = $filePath . $fileName;
+        $video->thumbnail = $filePath . 'thumbnail.jpg';
         $video->save();
+
+        dispatch(new BeginProcessingVideo($video));
 
         return response()->json($video);
     }
@@ -108,7 +125,8 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-        //
+        $video->load('conversions');
+        return Inertia::render('Videos/Show', compact('video'));
     }
 
     /**
@@ -143,5 +161,11 @@ class VideoController extends Controller
     public function destroy(Video $video)
     {
         //
+    }
+
+    public function thumbnail($videoId)
+    {
+        $video = Video::findOrFail($videoId);
+        return response()->file(storage_path("app/{$video->thumbnail}"));
     }
 }
