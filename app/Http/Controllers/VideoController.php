@@ -9,8 +9,10 @@ use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use FFMpeg\Filters\Frame\CustomFrameFilter;
 use FFMpeg\Filters\Frame\FrameFilters;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
@@ -108,6 +110,11 @@ class VideoController extends Controller
             ->addFilter(new CustomFrameFilter('scale=320:-1'))
             ->save($finalPath . 'thumbnail.jpg');
 
+        // Upload thumbnail straight to cloud
+        $disk = Storage::disk('do');
+        $disk->putFileAs("videos/{$video->hashed_id}", new File(storage_path('app/') . $video->thumbnail), 'thumbnail.jpg');
+        Storage::disk('local')->delete($finalPath . 'thumbnail.jpg');
+
         // create the video
         $video->path = $filePath . $fileName;
         $video->thumbnail = $filePath . 'thumbnail.jpg';
@@ -125,7 +132,7 @@ class VideoController extends Controller
      */
     public function show($hashedId)
     {
-        $video = Video::findOrFail(Hashids::decode($hashedId));
+        $video = Video::findOrFail(Hashids::connection('video')->decode($hashedId));
         $video->load('conversions');
         return Inertia::render('Videos/Show', compact('video'));
     }

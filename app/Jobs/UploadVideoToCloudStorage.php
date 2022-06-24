@@ -37,7 +37,6 @@ class UploadVideoToCloudStorage implements ShouldQueue
     {
         // Move thumbnail
         $disk = Storage::disk('do');
-        $disk->putFileAs("videos/{$this->video->hashed_id}", new File(storage_path('app/') . $this->video->thumbnail), 'thumbnail.jpg');
 
         // move conversions
         foreach ($this->video->conversions as $conversion) {
