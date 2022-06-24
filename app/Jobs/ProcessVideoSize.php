@@ -23,6 +23,8 @@ class ProcessVideoSize implements ShouldQueue
     protected $video;
     protected $sizeName;
 
+    public $timeout = 3600;
+
     /**
      * Create a new job instance.
      *

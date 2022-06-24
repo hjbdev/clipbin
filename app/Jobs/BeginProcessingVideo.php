@@ -18,6 +18,8 @@ class BeginProcessingVideo implements ShouldQueue
 
     protected $video;
 
+    public $timeout = 120;
+
     /**
      * Create a new job instance.
      *
