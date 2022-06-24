@@ -17,6 +17,8 @@ class Video extends Model
 
     protected $appends = ['thumbnail_url'];
 
+    protected $hidden = ['id'];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
@@ -24,11 +26,21 @@ class Video extends Model
 
     public function thumbnailUrl(): Attribute
     {
-        return new Attribute(fn () => "https://clipbin.ams3.cdn.digitaloceanspaces.com/videos/{$this->id}/thumbnail.mp4");
+        return new Attribute(fn () => "https://clipbin.ams3.cdn.digitaloceanspaces.com/videos/{$this->hashed_id}/thumbnail.jpg");
     }
 
     public function conversions() 
     {
         return $this->hasMany(Conversion::class);
+    }
+
+    public function batch()
+    {
+        return $this->belongsTo(Batch::class, 'batch_id', null);
+    }
+
+    public function incompleteBatch()
+    {
+        return $this->batch()->whereNull('finished_at');
     }
 }

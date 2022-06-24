@@ -47,7 +47,9 @@ class BeginProcessingVideo implements ShouldQueue
 
         $batch = Bus::batch($jobs)
             ->finally(function () use ($video) {
-                dispatch_sync(new UploadVideoToCloudStorage($video));
+                if (env('APP_ENV') === 'production') {
+                    // dispatch_sync(new UploadVideoToCloudStorage($video));
+                }
                 $video->status = Video::STATUS_COMPLETE;
                 $video->save();
             })->dispatch();

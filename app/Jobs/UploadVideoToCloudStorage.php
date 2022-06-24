@@ -37,13 +37,13 @@ class UploadVideoToCloudStorage implements ShouldQueue
     {
         // Move thumbnail
         $disk = Storage::disk('do');
-        $disk->putFileAs("videos/{$this->video->id}", new File(storage_path('app/') . $this->video->thumbnail), 'thumbnail.jpg');
+        $disk->putFileAs("videos/{$this->video->hashed_id}", new File(storage_path('app/') . $this->video->thumbnail), 'thumbnail.jpg');
 
         // move conversions
         foreach ($this->video->conversions as $conversion) {
-            $disk->putFileAs("videos/{$this->video->id}", new File(storage_path('app/') . $conversion->path), "{$conversion->name}.mp4");
+            $disk->putFileAs("videos/{$this->video->hashed_id}", new File(storage_path('app/') . $conversion->path), "{$conversion->name}.mp4");
         }
 
-        Storage::disk('local')->deleteDirectory('videos/' . $this->video->id);
+        Storage::disk('local')->deleteDirectory('videos/' . $this->video->hashed_id);
     }
 }

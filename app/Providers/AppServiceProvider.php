@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Conversion;
+use App\Models\Video;
+use App\Observers\ConversionObserver;
+use App\Observers\VideoObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Video::observe(VideoObserver::class);
+        Conversion::observe(ConversionObserver::class);
     }
 }

@@ -62,12 +62,14 @@ class ProcessVideoSize implements ShouldQueue
             ->setAudioChannels(2)
             ->setAudioKiloBitrate(128);
 
-        $video->save($format, storage_path("app/videos/{$this->video->id}/{$this->sizeName}.mp4"));
+        $video->save($format, storage_path("app/videos/{$this->video->hashed_id}/{$this->sizeName}.mp4"));
 
         $this->video->conversions()->create([
             'name' => $this->sizeName,
-            'path' => "videos/{$this->video->id}/{$this->sizeName}.mp4",
-            'size' => filesize(storage_path("app/videos/{$this->video->id}/{$this->sizeName}.mp4"))
+            'path' => "videos/{$this->video->hashed_id}/{$this->sizeName}.mp4",
+            'size' => filesize(storage_path("app/videos/{$this->video->hashed_id}/{$this->sizeName}.mp4"))
         ]);
+
+        $this->video->touch();
     }
 }

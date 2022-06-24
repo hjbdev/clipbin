@@ -15,6 +15,7 @@ use Inertia\Inertia;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
+use Vinkla\Hashids\Facades\Hashids;
 
 class VideoController extends Controller
 {
@@ -25,7 +26,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $videos = Video::whereCreatedBy(auth()->id())->orderByDesc('id')->get();
+        $videos = Video::whereCreatedBy(auth()->id())->with('incompleteBatch')->orderByDesc('id')->get();
         return Inertia::render('Dashboard', compact('videos'));
     }
 
@@ -89,7 +90,7 @@ class VideoController extends Controller
         $fileName = 'original.' . $file->getClientOriginalExtension();
 
         // Build the file path
-        $filePath = "videos/{$video->id}/";
+        $filePath = "videos/{$video->hashed_id}/";
         $finalPath = storage_path("app/" . $filePath);
 
         // move the file name
@@ -120,11 +121,11 @@ class VideoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
-    public function show(Video $video)
+    public function show($hashedId)
     {
+        $video = Video::findOrFail(Hashids::decode($hashedId));
         $video->load('conversions');
         return Inertia::render('Videos/Show', compact('video'));
     }

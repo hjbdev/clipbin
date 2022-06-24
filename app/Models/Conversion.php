@@ -15,6 +15,7 @@ class Conversion extends Model
     ];
 
     protected $appends = ['url'];
+    protected $hidden = ['id'];
 
     public function video()
     {
