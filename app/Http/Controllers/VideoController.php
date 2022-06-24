@@ -112,7 +112,7 @@ class VideoController extends Controller
 
         // Upload thumbnail straight to cloud
         $disk = Storage::disk('do');
-        $disk->putFileAs("videos/{$video->hashed_id}", new File(storage_path('app/') . $video->thumbnail), 'thumbnail.jpg');
+        $disk->putFileAs("videos/{$video->hashed_id}", new File($finalPath . 'thumbnail.jpg'), 'thumbnail.jpg');
         Storage::disk('local')->delete($finalPath . 'thumbnail.jpg');
 
         // create the video
