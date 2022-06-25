@@ -24,6 +24,6 @@ class Conversion extends Model
 
     public function url() : Attribute
     {
-        return new Attribute(fn () => "https://clipbin.ams3.cdn.digitaloceanspaces.com/videos/{$this->video->hashed_id}/{$this->size}.mp4");
+        return new Attribute(fn () => "https://clipbin.ams3.cdn.digitaloceanspaces.com/videos/{$this->video->hashed_id}/{$this->name}.mp4");
     }
 }
