@@ -25,9 +25,10 @@ use Inertia\Inertia;
 //     ]);
 // });
 
+Route::get('/videos/{hashedId}', [VideoController::class, 'show'])->name('videos.show');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('videos', VideoController::class)->only('store', 'destroy', 'update');
-    Route::get('/videos/{hashedId}', [VideoController::class, 'show'])->name('videos.show');
     Route::get('/', [VideoController::class, 'index'])->name('dashboard');
 });
 
