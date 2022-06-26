@@ -42,6 +42,7 @@ function saveTitle(e) {
             title: e.target.value,
         },
         {
+            preserveScroll: true,
             onError() {
                 Toastify({
                     text: "Something went wrong",
@@ -58,7 +59,9 @@ function deleteVideo() {
     const confirmed = confirm("Are you sure?");
 
     if (confirmed) {
-        Inertia.delete(`/videos/${props.video.hashed_id}`);
+        Inertia.delete(`/videos/${props.video.hashed_id}`, {
+            preserveScroll: true,
+        });
     }
 }
 
