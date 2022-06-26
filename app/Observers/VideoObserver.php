@@ -29,7 +29,7 @@ class VideoObserver
      */
     public function updated(Video $video)
     {
-        broadcast(new VideoUpdated($video));
+        // broadcast(new VideoUpdated($video));
     }
 
     /**
@@ -40,7 +40,7 @@ class VideoObserver
      */
     public function deleted(Video $video)
     {
-        broadcast(new VideoDeleted($video));
+        // broadcast(new VideoDeleted($video));
     }
 
     /**

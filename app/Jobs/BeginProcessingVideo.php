@@ -48,13 +48,18 @@ class BeginProcessingVideo implements ShouldQueue
         $video = $this->video;
 
         $batch = Bus::batch($jobs)
-            ->finally(function () use ($video) {
+            ->then(function () use ($video) {
                 if (env('APP_ENV') === 'production') {
                     dispatch_sync(new UploadVideoToCloudStorage($video));
                 }
                 $video->status = Video::STATUS_COMPLETE;
                 $video->save();
-            })->dispatch();
+            })
+            ->catch(function () use ($video) {
+                $video->status = Video::STATUS_ERROR;
+                $video->save();
+            })
+            ->dispatch();
 
         $this->video->batch_id = $batch->id;
         $this->video->status = Video::STATUS_PROCESSING;

@@ -14,6 +14,7 @@ class Video extends Model
     const STATUS_PENDING = 'pending';
     const STATUS_PROCESSING = 'processing';
     const STATUS_COMPLETE = 'complete';
+    const STATUS_ERROR = 'error';
 
     protected $appends = ['thumbnail_url'];
 

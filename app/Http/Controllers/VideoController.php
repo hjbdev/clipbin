@@ -28,7 +28,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $videos = Video::whereCreatedBy(auth()->id())->with('incompleteBatch')->orderByDesc('id')->get();
+        $videos = Video::whereCreatedBy(auth()->id())->with('incompleteBatch')->orderByDesc('id')->paginate(12);
         return Inertia::render('Dashboard', compact('videos'));
     }
 
@@ -107,7 +107,7 @@ class VideoController extends Controller
 
         $ffmpeg->open($finalPath . $fileName)
             ->frame(TimeCode::fromSeconds(0))
-            ->addFilter(new CustomFrameFilter('scale=320:-1'))
+            ->addFilter(new CustomFrameFilter('scale=640:-1'))
             ->save($finalPath . 'thumbnail.jpg');
 
         // Upload thumbnail straight to cloud
@@ -142,9 +142,9 @@ class VideoController extends Controller
      * @param  \App\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
-    public function edit(Video $video)
+    public function edit(Request $request, $hashedId)
     {
-        //
+        // 
     }
 
     /**
@@ -154,9 +154,15 @@ class VideoController extends Controller
      * @param  \App\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Video $video)
+    public function update(Request $request, $hashedId)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+        $video = Video::whereCreatedBy(auth()->id())->whereId(Hashids::connection('video')->decode($hashedId))->firstOrFail();
+        $video->title = $request->input('title');
+        $video->save();
+        return redirect()->back();
     }
 
     /**
@@ -165,9 +171,18 @@ class VideoController extends Controller
      * @param  \App\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Video $video)
+    public function destroy($hashedId)
     {
-        //
+        $video = Video::whereCreatedBy(auth()->id())->whereId(Hashids::connection('video')->decode($hashedId))->firstOrFail();
+        
+        Storage::disk('local')->deleteDirectory('videos/' . $video->hashed_id);
+        if (env('APP_ENV') === 'production') {
+            Storage::disk('do')->deleteDirectory('videos/' . $video->hashed_id);
+        }
+
+        $video->delete();
+
+        return redirect()->to('/');
     }
 
     public function thumbnail($videoId)

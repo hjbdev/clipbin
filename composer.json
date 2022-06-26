@@ -14,7 +14,6 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "php-ffmpeg/php-ffmpeg": "^1.0",
         "pion/laravel-chunk-upload": "^1.5",
-        "pusher/pusher-php-server": "^7.0",
         "tightenco/ziggy": "^1.0",
         "vinkla/hashids": "^10.0"
     },
