@@ -30,6 +30,8 @@ function onClick(e) {
     if (e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON") {
         e.preventDefault();
         e.stopPropagation();
+    } else {
+        Inertia.visit(`/videos/${props.video.hashed_id}`);
     }
 }
 
