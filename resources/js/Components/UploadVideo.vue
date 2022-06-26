@@ -39,7 +39,7 @@ onMounted(() => {
         target: "/videos",
         // Append token to the request - required for web routes
         query: {
-            _token: usePage().props.csrf
+            _token: usePage().props.value.csrf
         },
     });
 
