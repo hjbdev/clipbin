@@ -27,7 +27,7 @@ function progressBarWidth(video) {
 }
 
 function onClick(e) {
-    if (e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON") {
+    if (e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON" || e.target.tagName === 'SVG') {
         e.preventDefault();
         e.stopPropagation();
     } else {
