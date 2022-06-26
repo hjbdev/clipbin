@@ -28,12 +28,12 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Videos" />
+    <Head :title="video.title" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Video
+                {{ video.title }}
             </h2>
         </template>
 
