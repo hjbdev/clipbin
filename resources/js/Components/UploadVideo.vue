@@ -14,6 +14,7 @@ import { PrimaryButton } from "hjb-ui";
 import { onMounted, ref } from "vue";
 import { Inertia } from '@inertiajs/inertia';
 import Resumable from "resumablejs";
+import { usePage } from "@inertiajs/inertia-vue3";
 
 const fileInput = ref(null);
 const button = ref(null);
@@ -38,9 +39,7 @@ onMounted(() => {
         target: "/videos",
         // Append token to the request - required for web routes
         query: {
-            _token: document
-                .querySelector('meta[name="csrf-token"]')
-                .getAttribute("content"),
+            _token: usePage().props.csrf
         },
     });
 

@@ -12,8 +12,6 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
         <!-- Scripts -->
         @routes
         <script src="{{ mix('js/app.js') }}" defer></script>
