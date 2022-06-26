@@ -39,7 +39,7 @@ onMounted(() => {
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <template v-if="video.status === 'completed'">
+                <template v-if="video.status === 'complete'">
                     <video
                         id="player"
                         playsinline
