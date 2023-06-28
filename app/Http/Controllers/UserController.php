@@ -14,7 +14,7 @@ class UserController extends Controller
         $videos = Video::with('creator:id,name', 'conversions')
             ->where('public', true)
             ->where('status', 'complete')
-            ->whereCreatedAt($id)
+            ->whereCreatedBy($id)
             ->orderByDesc('id')
             ->paginate(12);
 
