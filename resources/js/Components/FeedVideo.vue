@@ -63,10 +63,13 @@ function copyLink() {
         :href="`/videos/${video.hashed_id}`"
         class="block bg-white overflow-hidden shadow-sm rounded-lg relative"
     >
-        <div
-            class="p-3"
-        >
-            <strong>{{ video.creator?.name }}</strong> uploaded
+        <div class="p-3 flex justify-between gap-3">
+            <div>
+                <strong>{{ video.creator?.name }}</strong> uploaded
+            </div>
+            <div>
+                {{ video.created_at_ago }}
+            </div>
         </div>
         <template v-if="video.status === 'complete'">
             <video
@@ -77,11 +80,7 @@ function copyLink() {
                 class="w-full aspect-video"
             ></video>
         </template>
-        <img
-            v-else
-            class="aspect-video w-full"
-            :src="video.thumbnail_url"
-        />
+        <img v-else class="aspect-video w-full" :src="video.thumbnail_url" />
         <div
             class="p-3 bg-white flex justify-between cursor-pointer"
             @click="onClick"

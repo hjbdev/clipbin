@@ -6,8 +6,6 @@ import PendingIcon from "./PendingIcon.vue";
 import ProcessingIcon from "./ProcessingIcon.vue";
 import ErrorIcon from "./ErrorIcon.vue";
 import { router } from "@inertiajs/vue3";
-import DeleteIcon from "./DeleteIcon.vue";
-import LinkIcon from "./LinkIcon.vue";
 import Dropdown from "./Dropdown.vue";
 import DropdownLink from "./DropdownLink.vue";
 import MenuIcon from "./MenuIcon.vue";
