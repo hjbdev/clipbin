@@ -19,7 +19,7 @@ class Video extends Model
     protected $appends = ['thumbnail_url', 'created_at_ago'];
     protected $casts = [
         'public' => 'boolean',
-        'created_at' => 'timestamp'
+        'created_at' => 'datetime'
     ];
 
     protected $hidden = ['id'];
