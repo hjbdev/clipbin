@@ -158,10 +158,16 @@ class VideoController extends Controller
     public function update(Request $request, $hashedId)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'nullable|string|max:255',
+            'public' => 'nullable|boolean'
         ]);
         $video = Video::whereCreatedBy(auth()->id())->whereId(Hashids::connection('video')->decode($hashedId))->firstOrFail();
-        $video->title = $request->input('title');
+        if ($request->input('title')) {
+            $video->title = $request->input('title');
+        }
+        if ($request->input('public')) {
+            $video->public = $request->input('public');
+        }
         $video->save();
         return redirect()->back();
     }

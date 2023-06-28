@@ -63,6 +63,26 @@ function saveTitle(e) {
     );
 }
 
+function togglePublic(e) {
+    router.patch(
+        `/videos/${props.video.hashed_id}`,
+        {
+            public: !props.video.public,
+        },
+        {
+            preserveScroll: true,
+            onError() {
+                Toastify({
+                    text: "Something went wrong",
+                    duration: 2000,
+                    gravity: "bottom",
+                    position: "right",
+                }).showToast();
+            },
+        }
+    );
+}
+
 function deleteVideo() {
     const confirmed = confirm("Are you sure?");
 
@@ -144,7 +164,10 @@ function blurInput(e) {
                         <DropdownLink @click.prevent.stop="copyLink"
                             >Copy Link</DropdownLink
                         >
-                        <DropdownLink @click.prevent.stop="deleteVideo"
+                        <DropdownLink @click.prevent.stop="togglePublic"
+                            >Make {{ video.public ? 'Private' : 'Public' }}</DropdownLink
+                        >
+                        <DropdownLink class="text-red-600" @click.prevent.stop="deleteVideo"
                             >Delete</DropdownLink
                         >
                     </template>
