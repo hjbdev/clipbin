@@ -3,6 +3,7 @@ import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import { Head, router } from "@inertiajs/vue3";
 import VideoItem from "../Components/VideoItem.vue";
 import Pagination from "../Components/Pagination.vue";
+import FeedVideo from "@/Components/FeedVideo.vue";
 
 const props = defineProps({
     videos: Object,
@@ -37,12 +38,13 @@ checkForIncompleteVideos();
 
         <div class="py-12">
             <div
-                class="max-w-7xl mx-auto px-6 lg:px-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+                class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col gap-6"
             >
-                <VideoItem
+                <FeedVideo
                     v-for="video in videos.data"
                     :video="video"
-                ></VideoItem>
+                    class="w-full"
+                ></FeedVideo>
                 <div
                     v-if="videos.length === 0"
                     class="md:col-span-2 lg:col-span-3 text-center text-gray-700"

@@ -1,7 +1,6 @@
 <script setup>
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import { Inertia } from "@inertiajs/inertia";
-import { Head } from "@inertiajs/inertia-vue3";
+import { Head, router } from "@inertiajs/vue3";
 import Plyr from "plyr";
 import { onMounted } from "vue";
 
@@ -22,7 +21,7 @@ onMounted(() => {
             })),
         };
     } else {
-        setTimeout(Inertia.reload());
+        setTimeout(router.reload());
     }
 });
 </script>

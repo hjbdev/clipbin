@@ -5,9 +5,12 @@ import autoResizeTextarea from "@/Helpers/autoResizeTextarea";
 import PendingIcon from "./PendingIcon.vue";
 import ProcessingIcon from "./ProcessingIcon.vue";
 import ErrorIcon from "./ErrorIcon.vue";
-import { Inertia } from "@inertiajs/inertia";
+import { router } from "@inertiajs/vue3";
 import DeleteIcon from "./DeleteIcon.vue";
 import LinkIcon from "./LinkIcon.vue";
+import Dropdown from "./Dropdown.vue";
+import DropdownLink from "./DropdownLink.vue";
+import MenuIcon from "./MenuIcon.vue";
 
 const textarea = ref(null);
 
@@ -27,17 +30,21 @@ function progressBarWidth(video) {
 }
 
 function onClick(e) {
-    console.log('click', e);
-    if (e.target.tagName.toLowerCase() === "textarea" || e.target.tagName.toLowerCase() === "button" || e.target.tagName.toLowerCase() === 'svg') {
+    console.log("click", e);
+    if (
+        e.target.tagName.toLowerCase() === "textarea" ||
+        e.target.tagName.toLowerCase() === "button" ||
+        e.target.tagName.toLowerCase() === "svg"
+    ) {
         e.preventDefault();
         e.stopPropagation();
     } else {
-        Inertia.visit(`/videos/${props.video.hashed_id}`);
+        router.visit(`/videos/${props.video.hashed_id}`);
     }
 }
 
 function saveTitle(e) {
-    Inertia.patch(
+    router.patch(
         `/videos/${props.video.hashed_id}`,
         {
             title: e.target.value,
@@ -60,7 +67,7 @@ function deleteVideo() {
     const confirmed = confirm("Are you sure?");
 
     if (confirmed) {
-        Inertia.delete(`/videos/${props.video.hashed_id}`, {
+        router.delete(`/videos/${props.video.hashed_id}`, {
             preserveScroll: true,
         });
     }
@@ -88,9 +95,8 @@ function blurInput(e) {
 <template>
     <div
         :href="`/videos/${video.hashed_id}`"
-        class="block bg-white overflow-hidden shadow-sm rounded-lg relative cursor-pointer"
+        class="block bg-white shadow-sm rounded-lg relative"
         :disabled="video.status !== 'complete'"
-        @click="onClick"
     >
         <div
             v-if="video.incomplete_batch"
@@ -98,10 +104,11 @@ function blurInput(e) {
             :style="{ width: progressBarWidth(video) }"
         ></div>
         <img
-            class="rounded-t-lg aspect-video w-full"
+            class="rounded-t-lg aspect-video w-full cursor-pointer"
             :src="video.thumbnail_url"
+            @click="onClick"
         />
-        <div class="p-3 bg-white flex justify-between">
+        <div class="p-3 bg-white flex justify-between rounded-b-lg">
             <textarea
                 ref="textarea"
                 rows="1"
@@ -111,18 +118,6 @@ function blurInput(e) {
                 >{{ video.title }}</textarea
             >
             <div class="flex items-center justify-center gap-3">
-                <button
-                    class="outline-none text-gray-500 hover:text-gray-600"
-                    @click="copyLink"
-                >
-                    <LinkIcon class="w-5 h-5"></LinkIcon>
-                </button>
-                <button
-                    class="outline-none text-red-500 hover:text-red-600"
-                    @click="deleteVideo"
-                >
-                    <DeleteIcon class="w-5 h-5" />
-                </button>
                 <template v-if="video.status !== 'complete'">
                     <PendingIcon
                         v-if="video.status === 'pending'"
@@ -137,6 +132,23 @@ function blurInput(e) {
                         class="w-5 h-5 text-red-600"
                     />
                 </template>
+                <Dropdown>
+                    <template #trigger>
+                        <button
+                            class="px-1 outline-none text-gray-500 hover:text-gray-600 flex items-center justify-center"
+                        >
+                            <MenuIcon class="w-5 h-5" />
+                        </button>
+                    </template>
+                    <template #content>
+                        <DropdownLink @click.prevent.stop="copyLink"
+                            >Copy Link</DropdownLink
+                        >
+                        <DropdownLink @click.prevent.stop="deleteVideo"
+                            >Delete</DropdownLink
+                        >
+                    </template>
+                </Dropdown>
             </div>
         </div>
     </div>

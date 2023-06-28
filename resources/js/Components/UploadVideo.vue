@@ -12,9 +12,8 @@
 <script setup>
 import { PrimaryButton } from "hjb-ui";
 import { onMounted, ref } from "vue";
-import { Inertia } from '@inertiajs/inertia';
 import Resumable from "resumablejs";
-import { usePage } from "@inertiajs/inertia-vue3";
+import { usePage, router } from "@inertiajs/vue3";
 
 const fileInput = ref(null);
 const button = ref(null);
@@ -39,7 +38,7 @@ onMounted(() => {
         target: "/videos",
         // Append token to the request - required for web routes
         query: {
-            _token: usePage().props.value.csrf
+            _token: usePage().props.csrf
         },
     });
 
@@ -59,7 +58,7 @@ onMounted(() => {
     });
     resumable.on("fileSuccess", function (file, message) {
         uploading.value = false;
-        Inertia.reload({ only: ['videos'] })
+        router.reload({ only: ['videos'] })
     });
     resumable.on("fileError", function (file, message) {
         uploading.value = false;

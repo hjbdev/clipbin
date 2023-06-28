@@ -29,7 +29,8 @@ class VideoController extends Controller
     public function index()
     {
         $videos = Video::whereCreatedBy(auth()->id())->with('incompleteBatch')->orderByDesc('id')->paginate(12);
-        return Inertia::render('Dashboard', compact('videos'));
+        $title = 'Your Videos';
+        return inertia('Dashboard', compact('videos', 'title'));
     }
 
     /**

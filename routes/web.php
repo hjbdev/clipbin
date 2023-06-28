@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PublicVideoFeed;
 use App\Http\Controllers\VideoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -29,7 +30,8 @@ Route::get('/videos/{hashedId}', [VideoController::class, 'show'])->name('videos
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('videos', VideoController::class)->only('store', 'destroy', 'update');
-    Route::get('/', [VideoController::class, 'index'])->name('dashboard');
+    Route::get('/my-videos', [VideoController::class, 'index'])->name('my-videos');
+    Route::get('/', PublicVideoFeed::class)->name('dashboard');
 });
 
 // Route::get('/dashboard', function () {
