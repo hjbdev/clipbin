@@ -4,7 +4,7 @@ import Toastify from "toastify-js";
 import PendingIcon from "./PendingIcon.vue";
 import ProcessingIcon from "./ProcessingIcon.vue";
 import ErrorIcon from "./ErrorIcon.vue";
-import { router } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 import LinkIcon from "./LinkIcon.vue";
 import Plyr from "plyr";
 
@@ -66,7 +66,7 @@ function copyLink() {
     >
         <div class="p-3 flex justify-between gap-3">
             <div>
-                <strong>{{ video.creator?.name }}</strong> uploaded
+                <Link :href="`/users/${video.creator?.id}`" class="font-bold">{{ video.creator?.name }}</Link> uploaded
             </div>
             <div>
                 {{ video.created_at_ago }}
