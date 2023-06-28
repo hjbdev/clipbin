@@ -165,7 +165,7 @@ class VideoController extends Controller
         if ($request->get('title')) {
             $video->title = $request->get('title');
         }
-        if ($request->get('public')) {
+        if ($request->has('public')) {
             $video->public = $request->get('public');
         }
         $video->save();
