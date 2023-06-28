@@ -16,9 +16,10 @@ class Video extends Model
     const STATUS_COMPLETE = 'complete';
     const STATUS_ERROR = 'error';
 
-    protected $appends = ['thumbnail_url'];
+    protected $appends = ['thumbnail_url', 'created_at_ago'];
     protected $casts = [
-        'public' => 'boolean'
+        'public' => 'boolean',
+        'created_at' => 'timestamp'
     ];
 
     protected $hidden = ['id'];
@@ -26,6 +27,11 @@ class Video extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function createdAtAgo(): Attribute
+    {
+        return new Attribute(fn () => $this->created_at->diffForHumans());
     }
 
     public function thumbnailUrl(): Attribute
