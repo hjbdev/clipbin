@@ -74,12 +74,12 @@ function copyLink() {
                 playsinline
                 controls
                 :data-poster="video.thumbnail_url"
-                class="w-full"
+                class="w-full aspect-video"
             ></video>
         </template>
         <img
             v-else
-            class="rounded-t-lg aspect-video w-full"
+            class="aspect-video w-full"
             :src="video.thumbnail_url"
         />
         <div

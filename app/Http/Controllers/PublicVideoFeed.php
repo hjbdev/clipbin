@@ -12,7 +12,7 @@ class PublicVideoFeed extends Controller
      */
     public function __invoke(Request $request)
     {
-        $videos = Video::with('incompleteBatch', 'creator:id,name')->where('public', true)->where('status', 'complete')->orderByDesc('id')->paginate(12);
+        $videos = Video::with('creator:id,name', 'conversions')->where('public', true)->where('status', 'complete')->orderByDesc('id')->paginate(12);
         $title = 'Feed';
 
         return inertia('Feed', compact('videos', 'title'));
