@@ -18,6 +18,7 @@ onMounted(() => {
 
         player.source = {
             type: "video",
+            poster: props.video.thumbnail_url,
             sources: props.video.conversions?.map((conversion) => ({
                 src: conversion.url,
                 type: "video/mp4",
