@@ -1,7 +1,6 @@
 <script setup>
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import { Head, router } from "@inertiajs/vue3";
-import VideoItem from "../Components/VideoItem.vue";
 import Pagination from "../Components/Pagination.vue";
 import FeedVideo from "@/Components/FeedVideo.vue";
 
@@ -27,7 +26,7 @@ checkForIncompleteVideos();
 </script>
 
 <template>
-    <Head title="Videos" />
+    <Head :title="title" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
