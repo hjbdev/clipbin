@@ -17,6 +17,9 @@ class Video extends Model
     const STATUS_ERROR = 'error';
 
     protected $appends = ['thumbnail_url'];
+    protected $casts = [
+        'public' => 'boolean'
+    ];
 
     protected $hidden = ['id'];
 
