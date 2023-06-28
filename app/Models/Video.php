@@ -39,7 +39,7 @@ class Video extends Model
         return new Attribute(fn () => "https://clipbin.ams3.cdn.digitaloceanspaces.com/videos/{$this->hashed_id}/thumbnail.jpg");
     }
 
-    public function conversions() 
+    public function conversions()
     {
         return $this->hasMany(Conversion::class);
     }

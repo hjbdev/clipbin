@@ -18,7 +18,7 @@ class UserController extends Controller
             ->orderByDesc('id')
             ->paginate(12);
 
-        $title = $user->name . '\'s Videos';
+        $title = $user['name'] . '\'s Videos';
 
         return inertia('Feed', compact('user', 'videos', 'title'));
     }
