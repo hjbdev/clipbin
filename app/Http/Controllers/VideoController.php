@@ -162,11 +162,11 @@ class VideoController extends Controller
             'public' => 'nullable|boolean'
         ]);
         $video = Video::whereCreatedBy(auth()->id())->whereId(Hashids::connection('video')->decode($hashedId))->firstOrFail();
-        if ($request->input('title')) {
-            $video->title = $request->input('title');
+        if ($request->get('title')) {
+            $video->title = $request->get('title');
         }
-        if ($request->input('public')) {
-            $video->public = $request->input('public');
+        if ($request->get('public')) {
+            $video->public = $request->get('public');
         }
         $video->save();
         return redirect()->back();
