@@ -29,7 +29,7 @@ onMounted(() => {
     const resumable = new Resumable({
         // Use chunk size that is smaller than your maximum limit due a resumable issue
         // https://github.com/23/resumable.js/issues/51
-        chunkSize: 1 * 1024 * 1024, // 1MB
+        chunkSize: 5 * 1024 * 1024, // 1MB
         maxFiles: 1,
         simultaneousUploads: 3,
         testChunks: false,
