@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, onUnmounted } from "vue";
 import Toastify from "toastify-js";
 import PendingIcon from "./PendingIcon.vue";
 import ProcessingIcon from "./ProcessingIcon.vue";
@@ -12,9 +12,11 @@ const props = defineProps({
     video: Object,
 });
 
+let player = null;
+
 onMounted(() => {
     if (props.video.status === "complete") {
-        const player = new Plyr(`#player-${props.video?.hashed_id}`);
+        player = new Plyr(`#player-${props.video?.hashed_id}`);
 
         player.source = {
             type: "video",
@@ -28,6 +30,11 @@ onMounted(() => {
     } else {
         setTimeout(router.reload());
     }
+});
+
+onUnmounted(() => {
+    player.destroy();
+    player = null;
 });
 
 function onClick(e) {

@@ -2,15 +2,17 @@
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import { Head, router } from "@inertiajs/vue3";
 import Plyr from "plyr";
-import { onMounted } from "vue";
+import { onMounted, onUnmounted } from "vue";
 
 const props = defineProps({
     video: Object,
 });
 
+let player = null;
+
 onMounted(() => {
     if (props.video.status === "complete") {
-        const player = new Plyr("#player");
+        player = new Plyr("#player");
 
         player.source = {
             type: "video",
@@ -23,6 +25,11 @@ onMounted(() => {
     } else {
         setTimeout(router.reload());
     }
+});
+
+onUnmounted(() => {
+    player.destroy();
+    player = null;
 });
 </script>
 
