@@ -154,6 +154,12 @@ class VideoController extends Controller
         ]);
     }
 
+    public function thumbnail($hashedId)
+    {
+        $video = Video::findOrFail(Hashids::connection('video')->decode($hashedId))->first();
+        return Storage::disk(app()->isProduction() ? 'do' : 'public')->response("videos/{$video->hashed_id}/thumbnail.jpg");
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -208,10 +214,9 @@ class VideoController extends Controller
 
         return redirect()->to('/my-videos');
     }
-
-    public function thumbnail($videoId)
-    {
-        $video = Video::findOrFail($videoId);
-        return response()->file(storage_path("app/{$video->thumbnail}"));
-    }
+    // public function thumbnail($videoId)
+    // {
+    //     $video = Video::findOrFail($videoId);
+    //     return response()->file(storage_path("app/{$video->thumbnail}"));
+    // }
 }

@@ -29,6 +29,7 @@ use Inertia\Inertia;
 
 Route::get('/videos/{hashedId}', [VideoController::class, 'show'])->name('videos.show');
 Route::get('/videos/{hashedId}/stream.mp4', [VideoController::class, 'stream'])->name('videos.stream');
+Route::geT('/videos/{hashedId}/thumbnail.jpg', [VideoController::class, 'thumbnail'])->name('videos.thumbnail');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('videos', VideoController::class)->only('store', 'destroy', 'update');
