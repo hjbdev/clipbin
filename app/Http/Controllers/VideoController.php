@@ -135,6 +135,21 @@ class VideoController extends Controller
         return Inertia::render('Videos/Show', compact('video'));
     }
 
+    public function stream($hashedId)
+    {
+        $video = Video::with('conversions')->findOrFail(Hashids::connection('video')->decode($hashedId))->first();
+        $conversion = $video->conversions->first();
+        $disk = Storage::disk(app()->isProduction() ? 'do' : 'public');
+        $stream = $disk->readStream("videos/{$video->hashed_id}/{$conversion->name}.mp4");
+        
+        return response()->stream(function () use ($stream) {
+            fpassthru($stream);
+        }, 200, [
+            'Content-Type' => 'video/mp4',
+            'Content-Length' => $disk->size("videos/{$video->hashed_id}/{$conversion->name}.mp4"),
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -179,7 +194,7 @@ class VideoController extends Controller
     public function destroy($hashedId)
     {
         $video = Video::whereCreatedBy(auth()->id())->whereId(Hashids::connection('video')->decode($hashedId))->firstOrFail();
-        
+
         Storage::disk('local')->deleteDirectory('videos/' . $video->hashed_id);
         if (env('APP_ENV') === 'production') {
             Storage::disk(app()->isProduction() ? 'do' : 'public')->deleteDirectory('videos/' . $video->hashed_id);

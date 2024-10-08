@@ -18,7 +18,7 @@
     <meta property="og:type" content="video">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:image" content="{{ $video->thumbnail_url }}">
-    <meta property="og:video" content="{{ $video->conversions()->first()?->url }}">
+    <meta property="og:video" content="{{ route('videos.stream', $video->hashed_id) }}">
     <meta property="og:video:width" content="1280">
     <meta property="og:video:height" content="720">
     <meta property="og:video:type" content="video/mp4">
