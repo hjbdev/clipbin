@@ -69,7 +69,7 @@ onMounted(() => {
     resumable = new Resumable({
         // Use chunk size that is smaller than your maximum limit due a resumable issue
         // https://github.com/23/resumable.js/issues/51
-        chunkSize: 5 * 1024 * 1024, // 1MB
+        chunkSize: 5 * 1024 * 1024, // 5MB
         maxFiles: 10,
         simultaneousUploads: 3,
         testChunks: false,
@@ -107,6 +107,7 @@ onMounted(() => {
         uploading.value = false;
         uploadQueue.value.splice(uploadQueue.value.findIndex(f => f.uniqueIdentifier === file.uniqueIdentifier), 1);
         alert("error while uploading file");
+        console.log(message);
     });
     resumable.on("fileProgress", function (file) {
         progress.value = file.progress() * 100;
