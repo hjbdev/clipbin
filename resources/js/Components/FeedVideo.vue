@@ -90,7 +90,7 @@ function copyLink() {
         </template>
         <img v-else class="aspect-video w-full" :src="video.thumbnail_url" />
         <div
-            class="p-3 bg-white flex justify-between cursor-pointer"
+            class="p-3 bg-zinc-800 flex justify-between cursor-pointer"
             @click="onClick"
         >
             <div
