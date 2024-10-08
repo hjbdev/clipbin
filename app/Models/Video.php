@@ -44,8 +44,8 @@ class Video extends Model
     public function thumbnailUrl(): Attribute
     {
         return new Attribute(
-            fn() =>
-            Storage::disk(app()->isProduction() ? 'do' : 'public')->{app()->isProduction() ? 'temporaryUrl' : 'url'}("videos/{$this->hashed_id}/thumbnail.jpg", now()->addMinute())
+            fn() => route('videos.thumbnail', ['hashedId' => $this->hashed_id])
+            // Storage::disk(app()->isProduction() ? 'do' : 'public')->{app()->isProduction() ? 'temporaryUrl' : 'url'}("videos/{$this->hashed_id}/thumbnail.jpg", now()->addMinute())
         );
     }
 
