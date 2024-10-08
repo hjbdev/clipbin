@@ -7,6 +7,7 @@ import ErrorIcon from "./ErrorIcon.vue";
 import { Link, router } from "@inertiajs/vue3";
 import LinkIcon from "./LinkIcon.vue";
 import Plyr from "plyr";
+import { UserCircleIcon } from "@heroicons/vue/20/solid";
 
 const props = defineProps({
     video: Object,
@@ -28,7 +29,7 @@ onMounted(() => {
             })),
         };
     } else {
-        setTimeout(router.reload({ only: ['video'] }));
+        setTimeout(router.reload({ only: ["video"] }));
     }
 });
 
@@ -71,14 +72,6 @@ function copyLink() {
         :href="`/videos/${video.hashed_id}`"
         class="block bg-zinc-800 overflow-hidden shadow-sm rounded-lg relative"
     >
-        <div class="p-3 flex justify-between gap-3">
-            <div>
-                <Link :href="`/users/${video.creator?.id}`" class="font-bold">{{ video.creator?.name }}</Link> uploaded
-            </div>
-            <div>
-                {{ video.created_at_ago }}
-            </div>
-        </div>
         <template v-if="video.status === 'complete'">
             <video
                 :id="`player-${video.hashed_id}`"
@@ -89,36 +82,50 @@ function copyLink() {
             ></video>
         </template>
         <img v-else class="aspect-video w-full" :src="video.thumbnail_url" />
-        <div
-            class="p-3 bg-zinc-800 flex justify-between cursor-pointer"
-            @click="onClick"
-        >
-            <div
-                class="flex-1 outline-none resize-none border border-transparent focus:border-zinc-300 h-6"
-            >
-                {{ video.title }}
-            </div>
-            <div class="flex items-center justify-center gap-3">
-                <button
-                    class="outline-none text-zinc-500 hover:text-zinc-600"
-                    @click="copyLink"
-                >
-                    <LinkIcon class="w-5 h-5"></LinkIcon>
-                </button>
-                <template v-if="video.status !== 'complete'">
-                    <PendingIcon
-                        v-if="video.status === 'pending'"
-                        class="w-5 h-5 text-zinc-500"
-                    />
-                    <ProcessingIcon
-                        v-if="video.status === 'processing'"
-                        class="animate-spin w-5 h-5 text-zinc-500"
-                    />
-                    <ErrorIcon
-                        v-if="video.status === 'error'"
-                        class="w-5 h-5 text-red-600"
-                    />
-                </template>
+        <div class="p-3 bg-zinc-800 cursor-pointer" @click="onClick">
+            <div class="flex justify-between">
+                <div>
+                    <h1 class="text-lg font-bold">
+                        {{ video.title }}
+                    </h1>
+                    <p class="opacity-50 text-xs">
+                        Uploaded {{ video.created_at_ago }}
+                    </p>
+                </div>
+                <div class="flex flex-col items-end gap-1">
+                    <Link
+                        v-if="video.creator"
+                        :href="`/users/${video.creator?.id}`"
+                        class="flex items-center justify-end gap-1.5"
+                    >
+                        <div class="text-xs">{{ video.creator?.name }}</div>
+                        <UserCircleIcon
+                            class="w-4 h-4 inline-block text-purple-500"
+                        />
+                    </Link>
+                    <div class="flex items-center justify-end gap-3 mt-1">
+                        <button
+                            class="outline-none text-zinc-500 hover:text-zinc-600"
+                            @click="copyLink"
+                        >
+                            <LinkIcon class="w-5 h-5"></LinkIcon>
+                        </button>
+                        <template v-if="video.status !== 'complete'">
+                            <PendingIcon
+                                v-if="video.status === 'pending'"
+                                class="w-5 h-5 text-zinc-500"
+                            />
+                            <ProcessingIcon
+                                v-if="video.status === 'processing'"
+                                class="animate-spin w-5 h-5 text-zinc-500"
+                            />
+                            <ErrorIcon
+                                v-if="video.status === 'error'"
+                                class="w-5 h-5 text-red-600"
+                            />
+                        </template>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
