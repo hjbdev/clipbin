@@ -1,8 +1,10 @@
 <script setup>
-import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import { Head, router } from "@inertiajs/vue3";
-import Plyr from "plyr";
 import { onMounted, onUnmounted } from "vue";
+import Plyr from "plyr";
+import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
+
+defineOptions({ layout: AuthenticatedLayout });
 
 const props = defineProps({
     video: Object,
@@ -23,7 +25,7 @@ onMounted(() => {
             })),
         };
     } else {
-        setTimeout(router.reload());
+        setTimeout(router.reload({ only: ['video'] }));
     }
 });
 
@@ -36,28 +38,20 @@ onUnmounted(() => {
 <template>
     <Head :title="video.title" />
 
-    <BreezeAuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ video.title }}
-            </h2>
-        </template>
-
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <template v-if="video.status === 'complete'">
-                    <video
-                        id="player"
-                        playsinline
-                        controls
-                        :data-poster="video.thumbnail_url"
-                        class="w-full"
-                    ></video>
-                </template>
-                <template v-else>
-                    <div class="text-center">Video Processing</div>
-                </template>
-            </div>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <template v-if="video.status === 'complete'">
+                <video
+                    id="player"
+                    playsinline
+                    controls
+                    :data-poster="video.thumbnail_url"
+                    class="w-full"
+                ></video>
+            </template>
+            <template v-else>
+                <div class="text-center">Video Processing</div>
+            </template>
         </div>
-    </BreezeAuthenticatedLayout>
+    </div>
 </template>

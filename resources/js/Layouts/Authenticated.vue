@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from "vue";
 import { Link } from "@inertiajs/vue3";
-import { useDropZone } from "@vueuse/core";
 import BreezeApplicationLogo from "@/Components/ApplicationLogo.vue";
 import BreezeDropdown from "@/Components/Dropdown.vue";
 import BreezeDropdownLink from "@/Components/DropdownLink.vue";
@@ -11,37 +10,11 @@ import UploadVideo from "@/Components/UploadVideo.vue";
 
 const showingNavigationDropdown = ref(false);
 
-const dropZoneRef = ref();
-
-function onDrop(files) {
-    console.log("files", files);
-    // called when files are dropped on zone
-}
-
-const { isOverDropZone } = useDropZone(dropZoneRef, {
-    onDrop,
-    // specify the types of data to be received.
-    dataTypes: ["video/mp4"],
-    // control multi-file drop
-    multiple: true,
-    // whether to prevent default behavior for unhandled events
-    preventDefaultForUnhandled: false,
-});
 </script>
 
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
-            <div
-                ref="dropZoneRef"
-                class="fixed inset-0 pointer-events-none z-40"
-            ></div>
-            <div
-                v-if="isOverDropZone"
-                class="absolute inset-0 bg-black/70 backdrop-blur text-white z-50"
-            >
-                Upload a File
-            </div>
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -28,7 +28,7 @@ onMounted(() => {
             })),
         };
     } else {
-        setTimeout(router.reload());
+        setTimeout(router.reload({ only: ['video'] }));
     }
 });
 

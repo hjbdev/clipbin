@@ -189,7 +189,7 @@ class VideoController extends Controller
 
         $video->delete();
 
-        return redirect()->to('/');
+        return redirect()->to('/my-videos');
     }
 
     public function thumbnail($videoId)
