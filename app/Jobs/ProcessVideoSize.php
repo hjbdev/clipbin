@@ -43,6 +43,9 @@ class ProcessVideoSize implements ShouldQueue
      */
     public function handle()
     {
+        $this->video->status = Video::STATUS_PROCESSING;
+        $this->video->save();
+
         $sizes = config('videos.sizes');
 
         $ffmpeg = FFMpeg::create([

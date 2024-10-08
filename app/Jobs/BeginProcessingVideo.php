@@ -61,7 +61,6 @@ class BeginProcessingVideo implements ShouldQueue
             ->dispatch();
 
         $this->video->batch_id = $batch->id;
-        $this->video->status = Video::STATUS_PROCESSING;
         $this->video->save();
     }
 }
