@@ -13,6 +13,7 @@ use App\Models\Conversion;
 use App\Models\Video;
 use App\Observers\ConversionObserver;
 use App\Observers\VideoObserver;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
+        
         Video::observe(VideoObserver::class);
         Conversion::observe(ConversionObserver::class);
 
