@@ -112,7 +112,7 @@ class VideoController extends Controller
             ->save($finalPath . 'thumbnail.jpg');
 
         // Upload thumbnail straight to cloud
-        $disk = Storage::disk('do');
+        $disk = Storage::disk(app()->isProduction() ? 'do' : 'public');
         $disk->putFileAs("videos/{$video->hashed_id}", new File($finalPath . 'thumbnail.jpg'), 'thumbnail.jpg');
         Storage::disk('local')->delete($finalPath . 'thumbnail.jpg');
 
@@ -184,7 +184,7 @@ class VideoController extends Controller
         
         Storage::disk('local')->deleteDirectory('videos/' . $video->hashed_id);
         if (env('APP_ENV') === 'production') {
-            Storage::disk('do')->deleteDirectory('videos/' . $video->hashed_id);
+            Storage::disk(app()->isProduction() ? 'do' : 'public')->deleteDirectory('videos/' . $video->hashed_id);
         }
 
         $video->delete();

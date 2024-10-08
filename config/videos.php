@@ -5,7 +5,7 @@ return [
         '1080' => [
             'width' => 1920,
             'height' => 1080,
-            'bitrate' => 8000
+            'bitrate' => 10000
         ],
         '720' => [
             'width' => 1280,

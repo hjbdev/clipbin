@@ -47,8 +47,8 @@ class ProcessVideoSize implements ShouldQueue
 
         $ffmpeg = FFMpeg::create([
             'temporary_directory' => storage_path('app/temp'),
-            'ffmpeg.binaries'  => env('FFMPEG_BINARY'),
-            'ffprobe.binaries' => env('FFPROBE_BINARY'),
+            'ffmpeg.binaries'  => config('services.ffmpeg.binary'),
+            'ffprobe.binaries' => config('services.ffmpeg.probe_binary'),
             'timeout'          => 3600 // The timeout for the underlying process
         ]);
 

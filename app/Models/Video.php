@@ -31,12 +31,15 @@ class Video extends Model
 
     public function createdAtAgo(): Attribute
     {
-        return new Attribute(fn () => $this->created_at->diffForHumans());
+        return new Attribute(fn() => $this->created_at->diffForHumans());
     }
 
     public function thumbnailUrl(): Attribute
     {
-        return new Attribute(fn () => "https://clipbin.ams3.cdn.digitaloceanspaces.com/videos/{$this->hashed_id}/thumbnail.jpg");
+        return new Attribute(
+            fn() =>
+            Storage::disk(app()->isProduction() ? 'do' : 'public')->{app()->isProduction() ? 'temporaryUrl' : 'url'}("videos/{$this->hashed_id}/thumbnail.jpg", now()->addMinute())
+        );
     }
 
     public function conversions()

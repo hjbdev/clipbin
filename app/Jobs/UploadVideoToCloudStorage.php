@@ -37,7 +37,7 @@ class UploadVideoToCloudStorage implements ShouldQueue
     public function handle()
     {
         // Move thumbnail
-        $disk = Storage::disk('do');
+        $disk = Storage::disk(app()->isProduction() ? 'do' : 'public');
 
         // move conversions
         foreach ($this->video->conversions as $conversion) {

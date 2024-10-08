@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "@inertiajs/vue3": "^1.0.9",
+        "@vueuse/core": "^11.1.0",
         "hjb-ui": "git+ssh://git@github.com/hjbdev/ui.git",
         "plyr": "^3.7.2",
         "resumablejs": "^1.1.0",
