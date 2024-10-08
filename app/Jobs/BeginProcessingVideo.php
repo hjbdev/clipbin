@@ -53,7 +53,8 @@ class BeginProcessingVideo implements ShouldQueue
                 $video->status = Video::STATUS_COMPLETE;
                 $video->save();
             })
-            ->catch(function () use ($video) {
+            ->catch(function ($e) use ($video) {
+                logger()->error($e->getMessage());
                 $video->status = Video::STATUS_ERROR;
                 $video->save();
             })
