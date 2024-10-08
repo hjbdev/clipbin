@@ -15,9 +15,13 @@
     $video = \App\Models\Video::findOrFail(Vinkla\Hashids\Facades\Hashids::connection('video')->decode(request()->route('hashedId')))->first();
     @endphp
     <meta property="og:title" content="{{ $video->title }}">
-    <meta property="og:image" content="{{ $video->thumbnail_url }}">
+    <meta property="og:type" content="video">
     <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ $video->thumbnail_url }}">
     <meta property="og:video" content="{{ $video->conversions()->first()?->url }}">
+    <meta property="og:video:width" content="1280">
+    <meta property="og:video:height" content="720">
+    <meta property="og:video:type" content="video/mp4">
     @endif
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
