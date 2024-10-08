@@ -44,7 +44,7 @@ class Video extends Model
 
     public function conversions()
     {
-        return $this->hasMany(Conversion::class);
+        return $this->hasMany(Conversion::class, 'video_id');
     }
 
     public function batch()

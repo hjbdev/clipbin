@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Jobs\BeginProcessingVideo;
 use App\Models\Video;
-use FFMpeg\Coordinate\Dimension;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use FFMpeg\Filters\Frame\CustomFrameFilter;
-use FFMpeg\Filters\Frame\FrameFilters;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
