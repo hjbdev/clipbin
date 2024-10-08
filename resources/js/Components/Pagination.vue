@@ -8,7 +8,7 @@
             class="bg-zinc-800 shadow py-1 px-2"
             :class="{
                 'text-zinc-300': !link.url,
-                'font-bold bg-zinc-600': link.active,
+                'font-bold bg-zinc-600 !text-purple-500': link.active,
                 'rounded-l': linkIndex === 0,
                 'rounded-r': linkIndex === links.length - 1,
             }"
