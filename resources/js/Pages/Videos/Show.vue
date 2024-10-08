@@ -51,7 +51,7 @@ onUnmounted(() => {
                 ></video>
 
                 <h1 class="text-2xl md:text-4xl font-bold mt-2">{{ video.title }}</h1>
-                <p class="mt-1 opacity-50 text-sm">Uploaded {{ video.created_at_ago }}</p>
+                <p class="mt-1 opacity-50 text-sm">Uploaded {{ video.created_at_ago }}<template v-if="video.originally_created_at_ago"> &bull; Originally created {{ video.originally_created_at_ago }}</template></p>
 
                 <Link v-if="video.creator" :href="`/users/${video.creator?.id}`" class="mt-1 flex items-center gap-1.5">
                     <UserCircleIcon class="w-6 h-6 inline-block text-purple-500" />

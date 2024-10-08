@@ -10,6 +10,7 @@ use FFMpeg\Filters\Frame\CustomFrameFilter;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
@@ -54,8 +55,6 @@ class VideoController extends Controller
         // receive the file
         $save = $receiver->receive();
 
-
-
         // check if the upload has finished (in chunk mode it will send smaller files)
         if ($save->isFinished()) {
             // save the file and return any response you need, current example uses `move` function. If you are
@@ -83,8 +82,13 @@ class VideoController extends Controller
     {
         $fileName = $file->getClientOriginalName();
 
+        if (request()->has('originally_created_at')) {
+            $originallyCreatedAt = Carbon::createFromTimestampMs(request()->get('originally_created_at'));
+        }
+
         $video = new Video();
         $video->title = $fileName;
+        $video->originally_created_at = $originallyCreatedAt ?? null;
         $video->creator()->associate(auth()->id());
         $video->save();
 

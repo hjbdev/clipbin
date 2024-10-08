@@ -16,10 +16,12 @@ class Video extends Model
     const STATUS_COMPLETE = 'complete';
     const STATUS_ERROR = 'error';
 
-    protected $appends = ['thumbnail_url', 'created_at_ago'];
+    protected $appends = ['thumbnail_url', 'created_at_ago', 'originally_created_at_ago'];
     protected $casts = [
         'public' => 'boolean',
-        'created_at' => 'datetime'
+        'created_at' => 'datetime',
+        'originally_created_at' => 'datetime',
+
     ];
 
     protected $hidden = ['id'];
@@ -32,6 +34,11 @@ class Video extends Model
     public function createdAtAgo(): Attribute
     {
         return new Attribute(fn() => $this->created_at->diffForHumans());
+    }
+
+    public function originallyCreatedAtAgo(): Attribute
+    {
+        return new Attribute(fn() => $this->originally_created_at?->diffForHumans());
     }
 
     public function thumbnailUrl(): Attribute

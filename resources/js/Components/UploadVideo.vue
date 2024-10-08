@@ -80,6 +80,10 @@ onMounted(() => {
         query: {
             _token: usePage().props.csrf,
         },
+        preprocess: function (chunk) {
+            chunk.resumableObj.opts.query.originally_created_at = chunk.fileObj.file.lastModified;
+            chunk.preprocessFinished();
+        }
     });
 
     if (!resumable.support) {
@@ -94,7 +98,6 @@ onMounted(() => {
         uploading.value = true;
         progress.value = file.progress() * 100;
         uploadQueue.value.push(file);
-        // Show progress pabr
         resumable.upload();
     });
     resumable.on("fileSuccess", function (file, message) {
