@@ -9,6 +9,7 @@ import { router } from "@inertiajs/vue3";
 import Dropdown from "./Dropdown.vue";
 import DropdownLink from "./DropdownLink.vue";
 import MenuIcon from "./MenuIcon.vue";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/vue/20/solid";
 
 const textarea = ref(null);
 
@@ -130,12 +131,19 @@ function blurInput(e) {
             <textarea
                 ref="textarea"
                 rows="1"
-                class="flex-1 outline-none resize-none border border-transparent bg-zinc-800 focus:border-zinc-300 h-6 -m-1 p-1"
+                class="[field-sizing:normal] flex-1 mr-3 outline-none resize-none border border-transparent bg-zinc-800 focus:border-zinc-300 h-6 -m-1 p-1"
                 @blur="saveTitle"
                 @keydown.enter.prevent="blurInput"
                 >{{ video.title }}</textarea
             >
             <div class="flex items-center justify-center gap-3">
+                <button @click.prevent.stop="togglePublic">
+                    <EyeIcon
+                        v-if="video.public"
+                        class="w-5 h-5 text-green-400"
+                    />
+                    <EyeSlashIcon v-else class="w-5 h-5 text-zinc-600" />
+                </button>
                 <template v-if="video.status !== 'complete'">
                     <PendingIcon
                         v-if="video.status === 'pending'"
@@ -153,7 +161,7 @@ function blurInput(e) {
                 <Dropdown>
                     <template #trigger>
                         <button
-                            class="px-1 outline-none text-zinc-500 hover:text-zinc-600 flex items-center justify-center"
+                            class="outline-none text-zinc-500 hover:text-zinc-600 flex items-center justify-center"
                         >
                             <MenuIcon class="w-5 h-5" />
                         </button>
@@ -163,9 +171,14 @@ function blurInput(e) {
                             >Copy Link</DropdownLink
                         >
                         <DropdownLink @click.prevent.stop="togglePublic"
-                            >Make {{ video.public ? 'Private' : 'Public' }}</DropdownLink
+                            >Make
+                            {{
+                                video.public ? "Private" : "Public"
+                            }}</DropdownLink
                         >
-                        <DropdownLink class="text-red-600" @click.prevent.stop="deleteVideo"
+                        <DropdownLink
+                            class="text-red-600"
+                            @click.prevent.stop="deleteVideo"
                             >Delete</DropdownLink
                         >
                     </template>
