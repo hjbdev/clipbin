@@ -113,7 +113,7 @@ function blurInput(e) {
 <template>
     <div
         :href="`/videos/${video.hashed_id}`"
-        class="block bg-white shadow-sm rounded-lg relative"
+        class="block bg-zinc-800 shadow-sm rounded-lg relative"
         :disabled="video.status !== 'complete'"
     >
         <div
@@ -126,11 +126,11 @@ function blurInput(e) {
             :src="video.thumbnail_url"
             @click="onClick"
         />
-        <div class="p-3 bg-white flex justify-between rounded-b-lg">
+        <div class="p-3 bg-zinc-800 flex justify-between rounded-b-lg">
             <textarea
                 ref="textarea"
                 rows="1"
-                class="flex-1 outline-none resize-none border border-transparent focus:border-gray-300 h-6 -m-1 p-1"
+                class="flex-1 outline-none resize-none border border-transparent bg-zinc-800 focus:border-zinc-300 h-6 -m-1 p-1"
                 @blur="saveTitle"
                 @keydown.enter.prevent="blurInput"
                 >{{ video.title }}</textarea
@@ -139,11 +139,11 @@ function blurInput(e) {
                 <template v-if="video.status !== 'complete'">
                     <PendingIcon
                         v-if="video.status === 'pending'"
-                        class="w-5 h-5 text-gray-500"
+                        class="w-5 h-5 text-zinc-500"
                     />
                     <ProcessingIcon
                         v-if="video.status === 'processing'"
-                        class="animate-spin w-5 h-5 text-gray-500"
+                        class="animate-spin w-5 h-5 text-zinc-500"
                     />
                     <ErrorIcon
                         v-if="video.status === 'error'"
@@ -153,7 +153,7 @@ function blurInput(e) {
                 <Dropdown>
                     <template #trigger>
                         <button
-                            class="px-1 outline-none text-gray-500 hover:text-gray-600 flex items-center justify-center"
+                            class="px-1 outline-none text-zinc-500 hover:text-zinc-600 flex items-center justify-center"
                         >
                             <MenuIcon class="w-5 h-5" />
                         </button>

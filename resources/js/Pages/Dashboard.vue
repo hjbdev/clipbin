@@ -40,12 +40,12 @@ checkForIncompleteVideos();
         >
             <VideoItem v-for="video in videos.data" :video="video"></VideoItem>
             <div
-                v-if="videos.length === 0"
-                class="md:col-span-2 lg:col-span-3 text-center text-gray-700"
+                v-if="!videos.total"
+                class="md:col-span-2 lg:col-span-3 text-center text-white"
             >
                 No videos yet!
             </div>
-            <div class="md:col-span-2 lg:col-span-3 text-right">
+            <div v-if="videos.links.length > 3" class="md:col-span-2 lg:col-span-3 text-right">
                 <Pagination :links="videos.links"></Pagination>
             </div>
         </div>

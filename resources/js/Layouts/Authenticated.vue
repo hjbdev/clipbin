@@ -13,9 +13,9 @@ const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
-    <div>
-        <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
+    <div class="text-white">
+        <div class="min-h-screen bg-zinc-950">
+            <nav class="bg-zinc-900/50 backdrop-blur border-b border-zinc-800 sticky top-0 z-20">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -60,7 +60,7 @@ const showingNavigationDropdown = ref(false);
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-zinc-300 bg-zinc-800 hover:text-zinc-400 focus:outline-none transition ease-in-out duration-150"
                                             >
                                                 {{ $page.props.auth.user.name }}
 
@@ -100,7 +100,7 @@ const showingNavigationDropdown = ref(false);
                                     showingNavigationDropdown =
                                         !showingNavigationDropdown
                                 "
-                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                                class="inline-flex items-center justify-center p-2 rounded-md text-zinc-400 hover:text-zinc-500 hover:bg-zinc-100 focus:outline-none focus:bg-zinc-100 focus:text-zinc-500 transition duration-150 ease-in-out"
                             >
                                 <svg
                                     class="h-6 w-6"
@@ -149,7 +149,7 @@ const showingNavigationDropdown = ref(false);
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >
-                            Home
+                            Public Feed
                         </BreezeResponsiveNavLink>
                         <BreezeResponsiveNavLink
                             :href="route('my-videos')"
@@ -162,13 +162,13 @@ const showingNavigationDropdown = ref(false);
                     <!-- Responsive Settings Options -->
                     <div
                         v-if="$page.props.auth?.user?.id"
-                        class="pt-4 pb-1 border-t border-gray-200"
+                        class="pt-4 pb-1 border-t border-zinc-200"
                     >
                         <div class="px-4">
-                            <div class="font-medium text-base text-gray-800">
+                            <div class="font-medium text-base text-zinc-800">
                                 {{ $page.props.auth.user.name }}
                             </div>
-                            <div class="font-medium text-sm text-gray-500">
+                            <div class="font-medium text-sm text-zinc-500">
                                 {{ $page.props.auth.user.email }}
                             </div>
                         </div>

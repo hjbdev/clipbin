@@ -60,9 +60,16 @@ class ProcessVideoSize implements ShouldQueue
 
         $format = new X264();
         $format
+            ->setPasses(2)
             ->setKiloBitrate($sizes[$this->sizeName]['bitrate'])
             ->setAudioChannels(2)
-            ->setAudioKiloBitrate(128);
+            ->setAudioKiloBitrate(128)
+            ->setAdditionalParameters([
+                "-preset",
+                "medium",
+                "-movflags",
+                "+faststart"
+            ]);
 
         $video->save($format, storage_path("app/videos/{$this->video->hashed_id}/{$this->sizeName}.mp4"));
 

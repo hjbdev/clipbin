@@ -133,7 +133,7 @@ class VideoController extends Controller
      */
     public function show($hashedId)
     {
-        $video = Video::with('conversions')->findOrFail(Hashids::connection('video')->decode($hashedId))->first();
+        $video = Video::with('conversions', 'creator:id,name')->findOrFail(Hashids::connection('video')->decode($hashedId))->first();
         return Inertia::render('Videos/Show', compact('video'));
     }
 

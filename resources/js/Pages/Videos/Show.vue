@@ -1,7 +1,8 @@
 <script setup>
-import { Head, router } from "@inertiajs/vue3";
+import { Head, router, Link } from "@inertiajs/vue3";
 import { onMounted, onUnmounted } from "vue";
 import Plyr from "plyr";
+import { UserCircleIcon } from "@heroicons/vue/20/solid";
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
 
 defineOptions({ layout: AuthenticatedLayout });
@@ -25,12 +26,12 @@ onMounted(() => {
             })),
         };
     } else {
-        setTimeout(router.reload({ only: ['video'] }));
+        setTimeout(router.reload({ only: ["video"] }));
     }
 });
 
 onUnmounted(() => {
-    player.destroy();
+    player?.destroy();
     player = null;
 });
 </script>
@@ -48,6 +49,14 @@ onUnmounted(() => {
                     :data-poster="video.thumbnail_url"
                     class="w-full"
                 ></video>
+
+                <h1 class="text-2xl md:text-4xl font-bold mt-2">{{ video.title }}</h1>
+                <p class="mt-1 opacity-50 text-sm">Uploaded {{ video.created_at_ago }}</p>
+
+                <Link v-if="video.creator" :href="`/users/${video.creator?.id}`" class="mt-1 flex items-center gap-1.5">
+                    <UserCircleIcon class="w-6 h-6 inline-block text-purple-500" />
+                    <div class="text-sm">{{ video.creator?.name }}</div>
+                </Link>
             </template>
             <template v-else>
                 <div class="text-center">Video Processing</div>

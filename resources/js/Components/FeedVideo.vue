@@ -69,7 +69,7 @@ function copyLink() {
 <template>
     <div
         :href="`/videos/${video.hashed_id}`"
-        class="block bg-white overflow-hidden shadow-sm rounded-lg relative"
+        class="block bg-zinc-800 overflow-hidden shadow-sm rounded-lg relative"
     >
         <div class="p-3 flex justify-between gap-3">
             <div>
@@ -94,13 +94,13 @@ function copyLink() {
             @click="onClick"
         >
             <div
-                class="flex-1 outline-none resize-none border border-transparent focus:border-gray-300 h-6"
+                class="flex-1 outline-none resize-none border border-transparent focus:border-zinc-300 h-6"
             >
                 {{ video.title }}
             </div>
             <div class="flex items-center justify-center gap-3">
                 <button
-                    class="outline-none text-gray-500 hover:text-gray-600"
+                    class="outline-none text-zinc-500 hover:text-zinc-600"
                     @click="copyLink"
                 >
                     <LinkIcon class="w-5 h-5"></LinkIcon>
@@ -108,11 +108,11 @@ function copyLink() {
                 <template v-if="video.status !== 'complete'">
                     <PendingIcon
                         v-if="video.status === 'pending'"
-                        class="w-5 h-5 text-gray-500"
+                        class="w-5 h-5 text-zinc-500"
                     />
                     <ProcessingIcon
                         v-if="video.status === 'processing'"
-                        class="animate-spin w-5 h-5 text-gray-500"
+                        class="animate-spin w-5 h-5 text-zinc-500"
                     />
                     <ErrorIcon
                         v-if="video.status === 'error'"

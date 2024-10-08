@@ -5,10 +5,10 @@
             v-for="(link, linkIndex) in links"
             :href="link.url"
             v-html="link.label"
-            class="bg-white shadow py-1 px-2 md:py-3 md:px-4"
+            class="bg-zinc-800 shadow py-1 px-2"
             :class="{
-                'text-gray-500': !link.url,
-                'font-bold bg-gray-100': link.active,
+                'text-zinc-300': !link.url,
+                'font-bold bg-zinc-600': link.active,
                 'rounded-l': linkIndex === 0,
                 'rounded-r': linkIndex === links.length - 1,
             }"
