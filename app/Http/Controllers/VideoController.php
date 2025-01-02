@@ -41,7 +41,7 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'resumableType' => 'required|in:video/mp4',
+            'resumableType' => 'required|in:video/mp4,video/x-matroska,video/quicktime',
         ]);
 
         // create the file receiver

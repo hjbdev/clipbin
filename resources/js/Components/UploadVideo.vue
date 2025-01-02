@@ -1,10 +1,12 @@
 <template>
-    <div
-        v-if="isOverDropZone"
-        class="absolute inset-0 bg-black/70 backdrop-blur text-white z-50 pointer-events-none flex items-center justify-center text-2xl"
-    >
-        Upload a Video
-    </div>
+    <Teleport to="body">
+        <div
+            v-if="isOverDropZone"
+            class="fixed inset-0 bg-black/70 backdrop-blur text-white z-50 pointer-events-none flex items-center justify-center text-2xl"
+        >
+            Drop to upload
+        </div>
+    </Teleport>
     <div class="flex items-center gap-2">
         <template v-if="uploadQueue.length">
             <div class="w-2 h-2 rounded-full bg-purple-600 animate-ping"></div>
@@ -46,7 +48,7 @@ function onDrop(files) {
 const { isOverDropZone } = useDropZone(dropZoneRef, {
     onDrop,
     // specify the types of data to be received.
-    dataTypes: ["video/mp4"],
+    dataTypes: ["video/mp4", "video/quicktime", "video/x-matroska"],
     // control multi-file drop
     multiple: true,
     // whether to prevent default behavior for unhandled events
@@ -81,9 +83,10 @@ onMounted(() => {
             _token: usePage().props.csrf,
         },
         preprocess: function (chunk) {
-            chunk.resumableObj.opts.query.originally_created_at = chunk.fileObj.file.lastModified;
+            chunk.resumableObj.opts.query.originally_created_at =
+                chunk.fileObj.file.lastModified;
             chunk.preprocessFinished();
-        }
+        },
     });
 
     if (!resumable.support) {
@@ -101,14 +104,24 @@ onMounted(() => {
         resumable.upload();
     });
     resumable.on("fileSuccess", function (file, message) {
-        console.log('file', file);
+        console.log("file", file);
         uploading.value = false;
-        uploadQueue.value.splice(uploadQueue.value.findIndex(f => f.uniqueIdentifier === file.uniqueIdentifier), 1);
+        uploadQueue.value.splice(
+            uploadQueue.value.findIndex(
+                (f) => f.uniqueIdentifier === file.uniqueIdentifier
+            ),
+            1
+        );
         router.reload({ only: ["videos"] });
     });
     resumable.on("fileError", function (file, message) {
         uploading.value = false;
-        uploadQueue.value.splice(uploadQueue.value.findIndex(f => f.uniqueIdentifier === file.uniqueIdentifier), 1);
+        uploadQueue.value.splice(
+            uploadQueue.value.findIndex(
+                (f) => f.uniqueIdentifier === file.uniqueIdentifier
+            ),
+            1
+        );
         alert("error while uploading file");
         console.log(message);
     });
